@@ -1,0 +1,839 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shaadi Invitation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Great+Vibes&family=Playfair+Display:wght@500;600&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1d2646;
+  --navy-2:#141b34;
+  --ink:#1f2747;
+  --soft:#4b5375;
+  --gold:#b88a44;
+  --gold-2:#e2c27f;
+  --cream:#fbf4e8;
+  --peach:#f2c5b0;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:#0b1124;color:var(--ink);font-family:"Cormorant Garamond",serif;overflow:hidden}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+
+.phone{position:relative;max-width:440px;height:100dvh;margin:0 auto;overflow:hidden;background:var(--navy-2);
+  box-shadow:0 0 80px rgba(0,0,0,.5)}
+.scene{position:absolute;inset:0;width:100%;height:100%}
+.twinkle{animation:twinkle 3s ease-in-out infinite}
+@keyframes twinkle{50%{opacity:.15}}
+.flicker{animation:flicker 1.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes flicker{50%{opacity:.6;transform:scale(.85)}}
+.glow{animation:glow 4s ease-in-out infinite}
+@keyframes glow{50%{opacity:.45}}
+.lantern{position:absolute;top:0;width:30px;animation:sway 4.5s ease-in-out infinite;transform-origin:top center;pointer-events:none}
+.lantern.b{animation-delay:-2.2s}
+@keyframes sway{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
+
+/* ============ TEMPLATE MEDIA (AI video / photo) ============ */
+.media{position:absolute;inset:0;display:none}
+.media video,.media img{width:100%;height:100%;object-fit:cover;display:block}
+.media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,15,35,.25),transparent 22%,transparent 62%,rgba(10,15,35,.6))}
+.has-media .media{display:block}
+.has-media #scene,.has-media .lantern{display:none}
+.media .layer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1);transition:opacity .9s ease,transform 7s ease-out}
+.media .layer.on{opacity:1;transform:scale(1.045)}
+.media video.layer.on{transform:none}
+@media (prefers-reduced-motion:reduce){.media .layer{transition:opacity .4s}.media .layer.on{transform:none}}
+.light-text{--ink:#fff8ec;--soft:#f3e6cf}
+.light-text .screen{color:var(--ink);text-shadow:0 2px 12px rgba(0,0,0,.65)}
+.light-text .couple .amp{color:var(--gold-2)}
+.light-text .count div{background:rgba(35,6,10,.55);border-color:var(--gold-2)}
+/* photo par text saaf parhne ke liye halki roshni */
+.has-media .screen:not(.wide){left:12%;right:12%;border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(246,240,250,.86) 0%,rgba(246,240,250,.62) 52%,rgba(246,240,250,0) 72%)}
+.has-media.light-text .screen:not(.wide){background:radial-gradient(ellipse at center,rgba(28,12,6,.66) 0%,rgba(28,12,6,.42) 52%,rgba(28,12,6,0) 72%)}
+.has-media.no-glow .screen:not(.wide){background:none}
+.has-media:not(.light-text) .script{color:#9a6a2f;text-shadow:0 1px 0 rgba(255,255,255,.7)}
+.panel{--ink:#1f2747;--soft:#4b5375;text-shadow:none;color:var(--ink)}
+
+/* ============ TOP BUTTON ============ */
+.lang{position:absolute;top:12px;right:12px;z-index:20;font-family:"Cinzel",serif;font-size:11px;font-weight:600;letter-spacing:.08em;
+  padding:7px 13px;border-radius:30px;background:rgba(20,27,52,.75);color:var(--gold-2);border:1px solid rgba(226,194,127,.5)}
+
+/* ============ SCREENS ============ */
+.screen{position:absolute;top:var(--box-top,11%);bottom:var(--box-bottom,41%);left:16%;right:16%;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;opacity:0;pointer-events:none;transition:opacity .5s}
+.screen.wide{top:9%;bottom:15.5%;left:6%;right:6%}
+.screen.active{opacity:1;pointer-events:auto}
+.screen.active > *{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.screen.active > *:nth-child(2){animation-delay:.12s}
+.screen.active > *:nth-child(3){animation-delay:.24s}
+.screen.active > *:nth-child(4){animation-delay:.36s}
+.screen.active > *:nth-child(5){animation-delay:.48s}
+.screen.active > *:nth-child(6){animation-delay:.6s}
+.screen.active > *:nth-child(7){animation-delay:.72s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.bism{font-family:"Amiri",serif;font-size:21px;color:var(--ink);margin-bottom:10px}
+.kicker{font-family:"Cinzel",serif;font-size:12.5px;font-weight:600;letter-spacing:.12em;line-height:1.5;color:var(--ink);text-transform:uppercase}
+.couple{font-family:"Cinzel",serif;font-weight:600;font-size:19px;letter-spacing:.06em;color:var(--ink);display:flex;align-items:center;gap:4px;justify-content:center;white-space:nowrap}
+.couple .amp{font-family:"Great Vibes",cursive;font-size:44px;color:#7a4f2e;line-height:.6;margin:0 2px}
+.couple.big{font-size:22px}
+.script{font-family:"Great Vibes",cursive;font-size:62px;line-height:1.05;color:#fff;margin-top:2px;
+  text-shadow:0 2px 14px rgba(31,39,71,.55),0 0 2px rgba(31,39,71,.4)}
+.title{font-family:"Playfair Display",serif;font-weight:600;font-size:34px;line-height:1.1;color:var(--ink);margin-top:6px}
+.line{font-size:18px;font-weight:600;line-height:1.35;color:var(--ink)}
+.sub{font-size:15px;font-weight:600;color:var(--soft);line-height:1.35}
+.orn{width:130px;height:16px;color:#7a4f2e;margin:10px auto}
+.parents{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.parents b{display:block;font-family:"Cinzel",serif;font-size:16px;letter-spacing:.06em}
+
+.dblock{display:flex;align-items:center;justify-content:center;gap:9px;margin:10px 0 4px;font-family:"Cinzel",serif;color:var(--ink)}
+.dblock .side{font-size:12.5px;font-weight:700;letter-spacing:.06em;min-width:74px}
+.dblock .side:first-child{text-align:right}.dblock .side:last-child{text-align:left}
+.dblock .day{border-left:1.5px solid var(--ink);border-right:1.5px solid var(--ink);padding:0 10px;line-height:1}
+.dblock .day small{display:block;font-size:11px;font-weight:700;letter-spacing:.1em;margin-bottom:2px}
+.dblock .day b{font-family:"Playfair Display",serif;font-size:44px;font-weight:600}
+.time{font-family:"Cinzel",serif;font-weight:700;font-size:15px;letter-spacing:.1em}
+.map-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 16px;border-radius:30px;font-family:"Cinzel",serif;
+  font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--cream);background:rgba(29,38,70,.85);text-decoration:none;border:1px solid var(--gold-2)}
+
+.count{display:flex;gap:7px;justify-content:center;margin-top:14px}
+.count div{width:52px;padding:9px 0 6px;border-radius:26px 26px 8px 8px;background:rgba(251,244,232,.72);border:1px solid var(--gold)}
+.count b{display:block;font-family:"Playfair Display",serif;font-size:24px;line-height:1.1}
+.count span{font-family:"Cinzel",serif;font-size:9px;font-weight:700;letter-spacing:.08em}
+
+/* cream panel for forms */
+.panel{width:100%;padding:20px 18px 16px;border-radius:24px 24px 18px 18px;background:rgba(251,244,232,.93);
+  border:1px solid var(--gold);box-shadow:0 0 0 4px rgba(251,244,232,.35),0 20px 40px rgba(10,15,35,.35);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);max-height:100%;overflow-y:auto}
+.panel .title{font-size:28px}
+.field{width:100%;height:54px;margin-top:12px;padding:0 16px;border:1.5px solid #d9c3a0;border-radius:14px;background:#fff;
+  font:inherit;font-size:19px;font-weight:600;color:var(--ink);text-align:center;outline:none}
+.field:focus{border-color:var(--gold)}
+.choice{width:100%;min-height:54px;margin-top:9px;border:1.5px solid #d9c3a0;border-radius:14px;background:#fff;
+  font-family:"Cinzel",serif;font-weight:700;font-size:15px;letter-spacing:.05em;display:flex;align-items:center;justify-content:center;gap:10px;transition:.2s}
+.choice .tick{width:24px;height:24px;border-radius:50%;border:1.5px solid #d9c3a0;display:grid;place-items:center;font-family:system-ui;font-size:13px;color:transparent}
+.choice.on{background:var(--navy);color:var(--gold-2);border-color:var(--navy)}
+.choice.on .tick{border-color:var(--gold-2);color:var(--gold-2)}
+.choice.no{font-family:"Cormorant Garamond",serif;font-size:17px;letter-spacing:0;min-height:46px;color:var(--soft)}
+.choice.no.on{background:#7c6a5c;color:#fff;border-color:#7c6a5c}
+.err{min-height:22px;margin-top:6px;font-size:15px;font-weight:700;color:#a8432c}
+.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-8px)}50%{transform:translateX(8px)}75%{transform:translateX(-4px)}}
+.counter{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding:7px 8px 7px 16px;border:1.5px solid #d9c3a0;border-radius:16px;background:#fff}
+.counter .lbl{font-family:"Cinzel",serif;font-weight:700;font-size:15px;letter-spacing:.05em}
+.counter .ctl{display:flex;align-items:center;gap:4px}
+.counter button{width:46px;height:46px;border-radius:50%;background:var(--navy);color:var(--gold-2);font-family:system-ui;font-size:24px;line-height:1}
+.counter button.minus{background:transparent;color:var(--ink);border:1.5px solid #d9c3a0}
+.counter .n{width:40px;text-align:center;font-family:"Playfair Display",serif;font-size:26px;font-weight:600}
+.total{margin-top:12px;font-family:"Cinzel",serif;font-weight:700;font-size:13px;letter-spacing:.08em;color:var(--soft)}
+.pill{width:100%;min-height:52px;margin-top:10px;border-radius:30px;font-family:"Cinzel",serif;font-weight:700;font-size:13px;letter-spacing:.06em;
+  display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+.pill.wa{background:#1f9d55;color:#fff}
+.pill.outline{border:1.5px solid var(--gold);color:var(--ink);background:#fff}
+.host-link{margin-top:14px;font-size:15px;font-weight:600;color:var(--soft);text-decoration:underline}
+.heart{font-size:40px;font-family:system-ui}
+
+/* ============ BOTTOM NAV ============ */
+.nav{position:absolute;left:0;right:0;bottom:0;z-index:10;padding:0 22px calc(18px + env(safe-area-inset-bottom));
+  display:flex;flex-direction:column;align-items:center;gap:10px;transition:opacity .4s}
+.nav.hide{opacity:0;pointer-events:none}
+.dots{display:flex;gap:6px}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(226,194,127,.4);transition:.3s}
+.dots i.on{width:20px;border-radius:4px;background:var(--gold-2)}
+.row{display:flex;gap:10px;width:100%}
+.next{flex:1;height:56px;border-radius:30px;background:linear-gradient(180deg,#ecd29a,#c69a52);color:var(--navy-2);
+  font-family:"Cinzel",serif;font-weight:700;font-size:16px;letter-spacing:.12em;display:flex;align-items:center;justify-content:center;gap:10px;
+  box-shadow:0 8px 22px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.6)}
+.back{width:56px;height:56px;border-radius:50%;background:rgba(20,27,52,.8);border:1px solid rgba(226,194,127,.6);color:var(--gold-2);
+  font-family:system-ui;font-size:20px;transition:.3s}
+.back.hidden{opacity:0;pointer-events:none;width:0;border-width:0;margin-right:-10px}
+
+/* ============ ENVELOPE INTRO ============ */
+.env-wrap{position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;
+  background:radial-gradient(ellipse at 50% 40%,#25315a,#0b1124 75%);perspective:1300px;transition:opacity .9s .5s}
+.env{position:relative;width:82%;max-width:350px;aspect-ratio:3/4;cursor:pointer;transition:transform 1.1s cubic-bezier(.5,0,.2,1) .5s}
+.env-body{position:absolute;inset:0;border-radius:6px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.55)}
+.flap{position:absolute;left:0;right:0;top:0;height:56%;transform-origin:top center;transition:transform 1s cubic-bezier(.5,0,.3,1);z-index:3;
+  filter:drop-shadow(0 6px 8px rgba(60,40,20,.25))}
+.seal{position:absolute;left:50%;top:56%;transform:translate(-50%,-50%);z-index:4;width:78px;height:78px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#f6e0a8,#c99a4f 62%,#946a2c);display:grid;place-items:center;
+  box-shadow:0 4px 12px rgba(0,0,0,.35),inset 0 0 0 5px rgba(255,255,255,.2);font-family:"Great Vibes",cursive;font-size:30px;color:#4d3214;
+  transition:opacity .4s,transform .4s;animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{50%{transform:translate(-50%,-50%) scale(1.07)}}
+.tap{font-family:"Cinzel",serif;font-size:12px;font-weight:600;letter-spacing:.2em;color:var(--gold-2);text-transform:uppercase;transition:opacity .4s}
+.env-wrap.open .flap{transform:rotateX(180deg)}
+.env-wrap.open .seal{opacity:0;transform:translate(-50%,-50%) scale(.5);animation:none}
+.env-wrap.open .tap{opacity:0}
+.env-wrap.open .env{transform:translateY(-8%) scale(1.25)}
+.env-wrap.open{opacity:0;pointer-events:none}
+.env-wrap.gone{display:none}
+
+/* ============ HOST ============ */
+.host{position:absolute;inset:0;z-index:60;background:var(--cream);padding:24px 18px 30px;overflow-y:auto;
+  transform:translateY(100%);transition:transform .5s cubic-bezier(.3,.8,.3,1)}
+.host.show{transform:none}
+.host h2{font-family:"Playfair Display",serif;font-size:28px;text-align:center}
+.host .sub{text-align:center;margin-bottom:6px}
+.stat{margin-top:10px;padding:14px 16px;border:1.5px solid #d9c3a0;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:space-between}
+.stat .fn{font-family:"Cinzel",serif;font-weight:700;font-size:15px;letter-spacing:.05em}
+.stat .brk{font-size:14px;font-weight:600;color:var(--soft)}
+.stat .num{font-family:"Playfair Display",serif;font-size:40px;font-weight:600;line-height:1}
+.guest{display:flex;justify-content:space-between;gap:10px;padding:9px 2px;border-bottom:1px solid #e6d6bd;font-size:16px;font-weight:600}
+.guest small{color:var(--soft);text-align:right}
+.empty{text-align:center;color:var(--soft);padding:18px 0;font-size:16px}
+.label{margin-top:20px;font-family:"Cinzel",serif;font-weight:700;font-size:12px;letter-spacing:.12em;color:var(--soft)}
+</style>
+</head>
+<body>
+<div class="phone" id="phone">
+  <div class="media" id="media"></div>
+  <svg class="scene" id="scene" viewBox="0 0 400 860" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+  <svg class="lantern" style="left:13%;height:150px" viewBox="0 0 30 150" preserveAspectRatio="xMidYMax meet" data-lantern></svg>
+  <svg class="lantern b" style="right:13%;height:120px" viewBox="0 0 30 150" preserveAspectRatio="xMidYMax meet" data-lantern></svg>
+
+  <button class="lang" id="langBtn"></button>
+
+  <!-- 0: HERO -->
+  <section class="screen">
+    <div class="bism">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+    <p class="kicker" data-t="request"></p>
+    <div class="couple big" data-couple></div>
+    <div class="script" data-t="wedding"></div>
+  </section>
+
+  <!-- 1: FAMILIES -->
+  <section class="screen">
+    <p class="kicker" data-t="blessings"></p>
+    <svg class="orn" viewBox="0 0 130 16"><path d="M0 8h50M80 8h50" stroke="currentColor"/><path d="M65 1l7 7-7 7-7-7z" fill="none" stroke="currentColor"/><circle cx="65" cy="8" r="2" fill="currentColor"/></svg>
+    <div class="parents">
+      <div><b data-e="groom"></b><span class="sub" data-e="groomParents"></span></div>
+      <div class="couple" style="justify-content:center"><span class="amp">&amp;</span></div>
+      <div><b data-e="bride"></b><span class="sub" data-e="brideParents"></span></div>
+    </div>
+  </section>
+
+  <!-- function screens are added here by JS -->
+  <div id="fnAnchor" hidden></div>
+
+  <!-- COUNTDOWN -->
+  <section class="screen" id="countdown">
+    <div class="couple" data-couple></div>
+    <p class="title" style="font-size:28px" data-t="countLine"></p>
+    <div class="count">
+      <div><b id="cD">0</b><span data-t="days"></span></div>
+      <div><b id="cH">0</b><span data-t="hours"></span></div>
+      <div><b id="cM">0</b><span data-t="mins"></span></div>
+      <div><b id="cS">0</b><span data-t="secs"></span></div>
+    </div>
+  </section>
+
+  <!-- RSVP 1 -->
+  <section class="screen wide" id="rsvp1">
+    <div class="panel">
+      <p class="kicker">RSVP</p>
+      <p class="title" data-t="willYou"></p>
+      <input class="field" id="name" autocomplete="name" data-ph="namePh">
+      <p class="sub" style="margin-top:12px" data-t="whichEvents"></p>
+      <div id="picks"></div>
+      <button class="choice no" id="decline"><span class="tick">✓</span><span data-t="cantCome"></span></button>
+      <div class="err" id="err1"></div>
+    </div>
+  </section>
+
+  <!-- RSVP 2 -->
+  <section class="screen wide" id="rsvp2">
+    <div class="panel">
+      <p class="kicker" data-t="guests"></p>
+      <p class="title" data-t="howMany"></p>
+      <div id="counters"></div>
+      <p class="total" id="total"></p>
+    </div>
+  </section>
+
+  <!-- THANKS -->
+  <section class="screen wide" id="thanks">
+    <div class="panel">
+      <div class="heart" id="thanksIco">🤍</div>
+      <p class="title" id="thanksText"></p>
+      <p class="sub" style="margin-top:6px" id="saveNote"></p>
+      <a class="pill wa" id="tellFamily" target="_blank" rel="noopener"></a>
+      <a class="pill outline" id="shareBtn" target="_blank" rel="noopener" data-t="share"></a>
+      <a class="pill outline" href="index.html" id="makeOwn" data-t="makeOwn"></a>
+    </div>
+  </section>
+
+  <!-- NAV -->
+  <div class="nav" id="nav">
+    <div class="dots" id="dots"></div>
+    <div class="row">
+      <button class="back hidden" id="back" aria-label="Back">←</button>
+      <button class="next" id="next"><span id="nextLbl"></span><span style="font-family:system-ui">→</span></button>
+    </div>
+  </div>
+
+  <!-- ENVELOPE -->
+  <div class="env-wrap" id="envWrap">
+    <div class="env" id="env">
+      <svg class="env-body" id="envBody" viewBox="0 0 300 400" preserveAspectRatio="none"></svg>
+      <svg class="flap" viewBox="0 0 300 224" preserveAspectRatio="none">
+        <path d="M0 0H300L150 224Z" fill="#f1e6d3" stroke="#c9a464" stroke-width="1.5"/>
+        <path d="M14 0L150 203L286 0" fill="none" stroke="#1d2646" stroke-width="5"/>
+        <path d="M24 0L150 189L276 0" fill="none" stroke="#c9a464" stroke-width="1"/>
+      </svg>
+      <div class="seal" id="seal"></div>
+    </div>
+    <p class="tap" data-t="tapOpen"></p>
+  </div>
+
+  <!-- HOST DASHBOARD -->
+  <div class="host" id="host">
+    <h2 data-t="dashTitle"></h2>
+    <p class="sub" data-t="dashSub"></p>
+    <p class="sub" id="hostStatus" style="text-align:center;margin-top:6px"></p>
+    <div id="stats"></div>
+    <a class="pill wa" id="caterer" target="_blank" rel="noopener" data-t="sendCaterer"></a>
+    <p class="label" data-t="responses"></p>
+    <div id="guestList"></div>
+    <button class="pill outline" id="refreshHost" data-t="refresh"></button>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script>
+/* =========================================================
+   SHAADI KI DETAILS — sirf yahan badlein
+   en = English, ru = Roman Urdu
+   ========================================================= */
+/* ---- link se data padhna (create page yahi banata hai) ---- */
+const PRESET = {
+  mehndi: { en: "Mehndi Night", ru: "Mehndi ki Raat" },
+  nikah:  { en: "Nikah",        ru: "Nikah" },
+  baraat: { en: "Baraat",       ru: "Baraat" },
+  walima: { en: "Walima",       ru: "Walima ki Dawat" }
+};
+const DEMO = { t: "mughal", g: "Ali", b: "Ayesha", gp: "Mr. Tariq Mahmood", bp: "Mr. Muhammad Aslam",
+  f: [["mehndi", "2026-12-18T19:00", "Model Town, Lahore"], ["baraat", "2026-12-20T19:30", "Gulberg Marquee, Lahore"], ["walima", "2026-12-21T13:00", "Johar Town Banquet, Lahore"]] };
+function decodeData(str) {
+  const bin = atob(str.replace(/-/g, "+").replace(/_/g, "/"));
+  return JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0))));
+}
+function fromLink() { try { const m = location.hash.match(/d=([^&]+)/); return m ? decodeData(m[1]) : null; } catch { return null; } }
+const D = fromLink() || DEMO;
+const EVENT = {
+  template: D.t || "mughal",
+  id: D.e || "",            // database mein is shaadi ki pehchaan
+  wa: D.w || "",            // family ka WhatsApp number
+  groom: { en: D.g, ru: D.g },
+  bride: { en: D.b, ru: D.b },
+  groomParents: { en: D.gp ? "S/o " + D.gp : "", ru: D.gp ? "Farzand: " + D.gp : "" },
+  brideParents: { en: D.bp ? "D/o " + D.bp : "", ru: D.bp ? "Dukhtar: " + D.bp : "" },
+  mainEvent: (D.f.find(x => x[0] === "baraat") || D.f[0])[0],
+  functions: D.f.map(([id, date, venue]) => ({ id, ...(PRESET[id] || { en: id, ru: id }), date, venue, map: venue }))
+};
+
+/* ---- TEMPLATES: OpenArt wali video/tasveer yahan lagti hai ----
+   templates/<naam>/bg.mp4  (ya bg.jpg)  — pehli jo mil jaye wo lagegi.
+   box = text kis hisse mein aaye (upar se / neeche se).  ink = "dark" ya "light" text. */
+const TEMPLATES = {
+  mughal: { media: ["templates/mughal/bg.mp4", "templates/mughal/bg.jpg"], ink: "dark",  box: ["19%", "39%"] },
+  blush:  { media: ["templates/blush/bg.mp4",  "templates/blush/bg.jpg"],  ink: "dark",  box: ["24%", "33%"], glow: false },
+  mehndi: { media: ["templates/mehndi/bg.mp4", "templates/mehndi/bg.jpg"], ink: "light", box: ["22%", "40%"] },
+  /* har screen ka apna scene: hero, families, fn (har taqreeb), countdown, rsvp, thanks */
+  maroon: { media: ["templates/maroon/bg.jpg"], ink: "light", box: ["12%", "53%"], glow: false,
+            scenes: { hero: { img: "templates/maroon/welcome.jpg", video: "templates/maroon/welcome.mp4" }, families: { img: "templates/maroon/couple.jpg", video: "templates/maroon/couple.mp4" },
+                      fn: { img: "templates/maroon/sofa.jpg", video: "templates/maroon/sofa.mp4" },
+                      countdown: { img: "templates/maroon/walk.jpg", video: "templates/maroon/walk.mp4" },
+                      rsvp: "templates/maroon/couple.jpg", thanks: { img: "templates/maroon/walk.jpg", video: "templates/maroon/walk.mp4" } } }
+};
+
+/* ============ TEXT ============ */
+const T = {
+  tapOpen:   { en: "Tap to open", ru: "Kholne ke liye tap karein" },
+  request:   { en: "We request your presence at", ru: "Aap ko shirkat ki dawat dete hain" },
+  wedding:   { en: "Wedding", ru: "Shaadi" },
+  blessings: { en: "With the blessings of our families", ru: "Dono khandanon ki duaon ke saath" },
+  venue:     { en: "Venue", ru: "Jagah" },
+  directions:{ en: "Get directions", ru: "Raasta dekhein" },
+  countLine: { en: "Counting down to the big day", ru: "Shaadi mein baqi waqt" },
+  days: { en: "Days", ru: "Din" }, hours: { en: "Hours", ru: "Ghantay" },
+  mins: { en: "Mins", ru: "Minute" }, secs: { en: "Secs", ru: "Second" },
+  willYou:   { en: "Will you join us?", ru: "Kya aap aayenge?" },
+  namePh:    { en: "Your name", ru: "Apna naam likhein" },
+  whichEvents:{ en: "Which events will you attend?", ru: "Kin taqreebaat mein aayenge?" },
+  cantCome:  { en: "Sorry, I can't make it", ru: "Maazrat, nahi aa sakunga" },
+  guests:    { en: "Guests", ru: "Mehmaan" },
+  howMany:   { en: "How many people are coming?", ru: "Kitne log aayenge?" },
+  men:   { en: "Men", ru: "Mard" }, women: { en: "Women", ru: "Khawateen" }, kids: { en: "Children", ru: "Bachay" },
+  total:     { en: "Total guests", ru: "Kul mehmaan" },
+  next:  { en: "Next", ru: "Aagay" }, send: { en: "Send reply", ru: "Jawab bhejein" },
+  errName:   { en: "Please write your name first", ru: "Pehle apna naam likhein" },
+  errPick:   { en: "Choose an event, or tap the button below", ru: "Koi taqreeb chunein, ya neechay wala button dabayein" },
+  thanksYes: { en: "Thank you! We can't wait to see you", ru: "Shukriya! Aap ka intezar rahega" },
+  thanksNo:  { en: "Thank you, keep us in your prayers", ru: "Shukriya, apni duaon mein yaad rakhiye" },
+  thanksSub: { en: "Your reply has reached the family", ru: "Aap ka jawab family tak pohanch gaya" },
+  share:     { en: "Share this invite", ru: "Ye card share karein" },
+  tellFamily:{ en: "Also tell the family on WhatsApp", ru: "Family ko WhatsApp par bhi batayein" },
+  tellMain:  { en: "Send your reply to the family", ru: "Apna jawab family ko bhejein" },
+  waOnly:    { en: "Last step: tap the green button to send your reply to the family", ru: "Aakhri qadam: hara button daba kar jawab family ko bhejein" },
+  sending:   { en: "Sending your reply…", ru: "Jawab bhej rahe hain…" },
+  saveFail:  { en: "Couldn't save online — please send it on WhatsApp", ru: "Online save nahi hua — WhatsApp se bhej dein" },
+  refresh:   { en: "Refresh", ru: "Naya dekhein" },
+  hostLoading:{ en: "Loading replies…", ru: "Jawab aa rahe hain…" },
+  hostFail:  { en: "Couldn't load — check internet", ru: "Load nahi hua — internet check karein" },
+  hostLocal: { en: "Online count is off: replies are coming to your WhatsApp", ru: "Online ginti band hai: jawab aap ke WhatsApp par aa rahe hain" },
+  hostLive:  { en: "Updates by itself every 20 seconds", ru: "Har 20 second mein khud update hota hai" },
+  makeOwn:   { en: "✨ Make your own invite — free", ru: "✨ Apna card free banayein" },
+  forHost:   { en: "For the family: guest count", ru: "Family ke liye: mehmaanon ki ginti" },
+  dashTitle: { en: "Guest count", ru: "Mehmaanon ki ginti" },
+  dashSub:   { en: "How many people are coming to each event", ru: "Kis taqreeb mein kitne log aa rahe hain" },
+  notComing: { en: "Not coming", ru: "Nahi aa rahe" },
+  sendCaterer:{ en: "WhatsApp the count to caterer", ru: "Caterer ko ginti WhatsApp karein" },
+  responses: { en: "RESPONSES", ru: "JAWABAT" },
+  noReplies: { en: "No replies yet", ru: "Abhi koi jawab nahi aaya" },
+  close:     { en: "Close", ru: "Band karein" }
+};
+const WEEKDAY_RU = ["Itwaar", "Peer", "Mangal", "Budh", "Jumeraat", "Juma", "Hafta"];
+
+let lang = "en";
+const t = k => T[k][lang];
+const $ = s => document.querySelector(s);
+
+/* =========================================================
+   SCENE (Mughal arch, palace, pool, flowers) — all drawn here
+   ========================================================= */
+let seed = 11;
+const rnd = () => (seed = seed * 16807 % 2147483647) / 2147483647;
+const H = 860, CX = 200;
+
+function arch(L, R, spring, apexY, lobes) {
+  const P = [[L, spring], [L, spring - (spring - apexY) * .55], [CX - (CX - L) * .32, apexY + (spring - apexY) * .28], [CX, apexY]];
+  const pt = t => [0, 1].map(k => (1-t)**3*P[0][k] + 3*(1-t)**2*t*P[1][k] + 3*(1-t)*t**2*P[2][k] + t**3*P[3][k]);
+  let d = `M${L} ${H}L${L} ${spring}`;
+  if (lobes) {
+    const N = 11, left = [...Array(N + 1)].map((_, i) => pt(i / N));
+    const right = left.slice().reverse().map(([x, y]) => [2 * CX - x, y]);
+    const seg = (a, b) => { const r = Math.hypot(b[0]-a[0], b[1]-a[1]) * .58; return `A${r.toFixed(1)} ${r.toFixed(1)} 0 0 1 ${b[0].toFixed(1)} ${b[1].toFixed(1)}`; };
+    for (let i = 1; i < left.length; i++) d += seg(left[i-1], left[i]);
+    for (let i = 1; i < right.length; i++) d += seg(right[i-1], right[i]);
+  } else {
+    d += `C${P[1]} ${P[2]} ${P[3]}C${2*CX-P[2][0]},${P[2][1]} ${2*CX-P[1][0]},${P[1][1]} ${R},${spring}`;
+  }
+  return d + `L${R} ${H}Z`;
+}
+function rose(x, y, r, fill, stroke) {
+  let s = `<g fill="${fill}" stroke="${stroke}" stroke-width=".6">`;
+  [[1, 7, 0], [.7, 6, 25], [.42, 5, 10]].forEach(([k, n, off]) => {
+    for (let i = 0; i < n; i++) s += `<ellipse cx="${x}" cy="${(y - r*k*.5).toFixed(1)}" rx="${(r*k*.44).toFixed(1)}" ry="${(r*k*.6).toFixed(1)}" transform="rotate(${i*360/n+off} ${x} ${y})"/>`;
+  });
+  return s + `</g>`;
+}
+const leaf = (x, y, a, l, c = "#7f8f6c") => `<path transform="translate(${x} ${y}) rotate(${a})" d="M0 0Q${l/2} ${-l/3} ${l} 0Q${l/2} ${l/3} 0 0z" fill="${c}" opacity=".9"/>`;
+const PAL = [["#f4c6b0", "#d99a85"], ["#fbefe3", "#d9c2ae"], ["#eaa996", "#c47b69"], ["#f8dccb", "#dcae98"], ["#fff8f0", "#e0cdb9"]];
+const pick = () => PAL[Math.floor(rnd() * PAL.length)];
+
+function palace() {
+  const base = "#d9c6c4", light = "#ece0da", win = "#ffd58a";
+  let s = `<g>`;
+  // minarets
+  [96, 304].forEach(x => s += `<rect x="${x-4}" y="372" width="8" height="92" fill="${light}"/><path d="M${x-7} 374Q${x} 352 ${x+7} 374Z" fill="${base}"/><line x1="${x}" y1="352" x2="${x}" y2="344" stroke="${base}"/>`);
+  // wings
+  s += `<rect x="108" y="418" width="184" height="46" fill="${base}"/>`;
+  [126, 274].forEach(x => s += `<path d="M${x-16} 418Q${x-16} 396 ${x} 388Q${x+16} 396 ${x+16} 418Z" fill="${light}"/>`);
+  // main block + dome
+  s += `<rect x="150" y="396" width="100" height="68" fill="${light}"/>`;
+  s += `<path d="M160 398C158 362 190 350 200 334C210 350 242 362 240 398Z" fill="${base}"/><line x1="200" y1="334" x2="200" y2="320" stroke="${base}" stroke-width="1.5"/><circle cx="200" cy="320" r="2" fill="${base}"/>`;
+  // windows / doors glowing
+  s += `<path d="M188 464V436Q200 420 212 436V464Z" fill="${win}" opacity=".9"/>`;
+  [162, 232].forEach(x => s += `<path d="M${x} 450V438Q${x+3} 432 ${x+6} 438V450Z" fill="${win}" opacity=".8"/>`);
+  [118, 140, 254, 276].forEach(x => s += `<path d="M${x} 458V444Q${x+3} 438 ${x+6} 444V458Z" fill="${win}" opacity=".75"/>`);
+  return s + `</g>`;
+}
+function palm(x, flip) {
+  const f = flip ? -1 : 1;
+  let s = `<g transform="translate(${x} 0) scale(${f} 1)"><path d="M0 470Q-6 420 6 368" stroke="#2c3656" stroke-width="5" fill="none"/>`;
+  [[-60, 46], [-25, 52], [10, 50], [40, 44], [-95, 38], [75, 36]].forEach(([a, l]) =>
+    s += `<path transform="translate(6 368) rotate(${a})" d="M0 0Q${l*.5} -14 ${l} 6Q${l*.5} -4 0 0Z" fill="#2c3656"/>`);
+  return s + `</g>`;
+}
+function chandelier() {
+  let s = `<g><line x1="200" y1="0" x2="200" y2="46" stroke="#c9a464" stroke-width="1.5"/>`;
+  s += `<circle cx="200" cy="96" r="52" fill="url(#gl)" class="glow"/>`;
+  s += `<path d="M168 70Q200 60 232 70L224 78Q200 86 176 78Z" fill="#d8b46a"/><path d="M178 92Q200 84 222 92L216 98Q200 104 184 98Z" fill="#d8b46a"/>`;
+  s += `<path d="M184 52Q200 44 216 52L210 60Q200 64 190 60Z" fill="#e3c27e"/>`;
+  for (let i = -6; i <= 6; i++) {
+    const x = 200 + i * 5.2, l = 92 + (6 - Math.abs(i)) * 5;
+    s += `<line x1="${x}" y1="78" x2="${x}" y2="${l}" stroke="#f6e7c1" stroke-width=".6"/><ellipse cx="${x}" cy="${l + 3}" rx="1.6" ry="3" fill="#fff8e2"/>`;
+  }
+  for (let i = -3; i <= 3; i++) s += `<circle cx="${200 + i*9}" cy="${70 - Math.abs(i)}" r="2" fill="#fff3c9" class="flicker"/>`;
+  return s + `</g>`;
+}
+function garlands() {
+  let s = "";
+  // dense band of flowers along the very top
+  for (let i = 0; i < 46; i++) { const [f, st] = pick(); const x = rnd() * 420 - 10, y = rnd() * 38 - 4; s += leaf(x, y + 6, rnd() * 360, 14 + rnd() * 8); s += rose(x.toFixed(1), y.toFixed(1), 7 + rnd() * 9, f, st); }
+  // hanging wisteria strands on both sides of the arch
+  [[48, 132], [268, 352]].forEach(([a, b]) => {
+    for (let k = 0; k < 9; k++) {
+      const x0 = a + rnd() * (b - a), len = 70 + rnd() * 170 * (Math.abs(x0 - 200) > 110 ? 1 : .55);
+      s += `<line x1="${x0}" y1="20" x2="${x0}" y2="${20 + len}" stroke="#8b8f73" stroke-width=".5" opacity=".6"/>`;
+      for (let y = 26; y < 20 + len; y += 6 + rnd() * 4) { const [f] = pick(); s += `<circle cx="${(x0 + (rnd() - .5) * 7).toFixed(1)}" cy="${y.toFixed(1)}" r="${(1.6 + rnd() * 2.6 * (1 - (y - 20) / len * .6)).toFixed(1)}" fill="${f}"/>`; }
+    }
+  });
+  return s;
+}
+function bouquet(x, y, flip) {
+  let s = `<g transform="translate(${x} ${y}) scale(${flip ? -1 : 1} 1)">`;
+  for (let i = 0; i < 14; i++) s += leaf(rnd() * 70 - 10, rnd() * 70 - 20, rnd() * 360, 18 + rnd() * 10);
+  for (let i = 0; i < 12; i++) { const [f, st] = pick(); s += rose((rnd() * 70).toFixed(1), (rnd() * 70 - 10).toFixed(1), 9 + rnd() * 10, f, st); }
+  return s + `</g>`;
+}
+function candles() {
+  let s = "";
+  [[90, 764], [128, 776], [272, 776], [310, 764], [60, 806], [340, 806], [160, 812], [240, 812]].forEach(([x, y]) => {
+    s += `<circle cx="${x}" cy="${y - 10}" r="16" fill="url(#gl)" opacity=".8"/><rect x="${x - 3.5}" y="${y - 6}" width="7" height="14" rx="1.5" fill="#f5e9d4"/>`;
+    s += `<ellipse cx="${x}" cy="${y - 10}" rx="2" ry="4" fill="#ffd27a" class="flicker"/>`;
+  });
+  return s;
+}
+function buildScene() {
+  const L = 58, R = 342, SP = 330, AP = 66, HZ = 524; // HZ = horizon (palace base)
+  let s = `<defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#93a7d4"/><stop offset=".45" stop-color="#c9c3dc"/><stop offset=".56" stop-color="#f1d3c0"/></linearGradient>
+    <linearGradient id="pool" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9eaed2"/><stop offset="1" stop-color="#3a4877"/></linearGradient>
+    <linearGradient id="band" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d6b57a"/><stop offset=".5" stop-color="#f6ebd8"/><stop offset="1" stop-color="#d6b57a"/></linearGradient>
+    <radialGradient id="gl"><stop offset="0" stop-color="#ffe6a6" stop-opacity=".9"/><stop offset="1" stop-color="#ffe6a6" stop-opacity="0"/></radialGradient>
+    <radialGradient id="halo" cx=".5" cy=".3" r=".5"><stop offset="0" stop-color="#fff8ee" stop-opacity=".55"/><stop offset="1" stop-color="#fff8ee" stop-opacity="0"/></radialGradient>
+    <pattern id="jali" width="22" height="22" patternUnits="userSpaceOnUse">
+      <rect width="22" height="22" fill="#1d2646"/>
+      <path d="M11 3Q14 8 19 11Q14 14 11 19Q8 14 3 11Q8 8 11 3Z" fill="none" stroke="#b88a44" stroke-width=".7" opacity=".7"/>
+      <circle cx="11" cy="11" r="1.4" fill="#d9b46f" opacity=".8"/><circle cx="0" cy="0" r="1" fill="#d9b46f" opacity=".5"/>
+    </pattern>
+    <pattern id="carpet" width="26" height="16" patternUnits="userSpaceOnUse">
+      <rect width="26" height="16" fill="#26305a"/><path d="M0 8Q6.5 0 13 8T26 8" fill="none" stroke="#b88a44" stroke-width=".6" opacity=".55"/><circle cx="13" cy="8" r="1.3" fill="#e9a996" opacity=".7"/>
+    </pattern>
+    <clipPath id="poolClip"><rect x="0" y="524" width="400" height="200"/></clipPath>
+  </defs>`;
+  s += `<rect width="400" height="860" fill="url(#sky)"/>`;
+  for (let i = 0; i < 18; i++) s += `<circle cx="${(80 + rnd() * 240).toFixed(1)}" cy="${(90 + rnd() * 230).toFixed(1)}" r="${(.6 + rnd()).toFixed(1)}" fill="#fff" class="twinkle" style="animation-delay:${(-rnd() * 3).toFixed(2)}s"/>`;
+  s += `<ellipse cx="200" cy="250" rx="150" ry="170" fill="url(#halo)"/>`;
+  s += `<g transform="translate(0 ${HZ - 464})">${palm(46, false) + palm(354, true)}</g>`;
+  const pal = `<g transform="translate(200 ${HZ}) scale(1.35) translate(-200 -464)">${palace()}</g>`;
+  s += pal;
+  s += `<rect x="0" y="${HZ}" width="400" height="200" fill="url(#pool)"/>`;
+  s += `<g clip-path="url(#poolClip)"><g opacity=".35" transform="translate(0 ${2 * HZ}) scale(1 -1)">${pal}</g></g>`;
+  for (let x = 30; x <= 370; x += 17) s += `<circle cx="${x}" cy="${HZ + 4}" r="2" fill="#ffe1a0" class="flicker" style="animation-delay:${(-rnd() * 2).toFixed(2)}s"/>`;
+  s += `<rect x="0" y="700" width="400" height="160" fill="url(#carpet)"/><rect x="0" y="700" width="400" height="4" fill="#b88a44"/><rect x="0" y="712" width="400" height="1.5" fill="#b88a44" opacity=".6"/>`;
+  s += candles();
+  // frame: navy jali + cream band + gold lines
+  s += `<path d="M0 0H400V860H0Z${arch(L - 20, R + 20, SP, AP - 26, false).slice(0)}" fill="url(#jali)" fill-rule="evenodd"/>`;
+  s += `<path d="${arch(L - 20, R + 20, SP, AP - 26, false)}${arch(L, R, SP, AP, true)}" fill="url(#band)" fill-rule="evenodd"/>`;
+  s += `<path d="${arch(L - 20, R + 20, SP, AP - 26, false)}" fill="none" stroke="#b88a44" stroke-width="2"/>`;
+  s += `<path d="${arch(L - 30, R + 30, SP, AP - 40, false)}" fill="none" stroke="#d9b46f" stroke-width=".8" opacity=".8"/>`;
+  s += `<path d="${arch(L, R, SP, AP, true)}" fill="none" stroke="#a87b38" stroke-width="1.6"/>`;
+  // pillars / capitals
+  [[L - 20, L], [R, R + 20]].forEach(([a, b]) => {
+    s += `<rect x="${a - 3}" y="${SP - 6}" width="${b - a + 6}" height="10" fill="#c69a52"/><rect x="${a - 1}" y="${SP + 4}" width="${b - a + 2}" height="4" fill="#e7cf9c"/>`;
+    for (let y = SP + 30; y < 650; y += 46) s += `<path d="M${(a + b) / 2} ${y}l5 9-5 9-5-9z" fill="none" stroke="#b88a44" stroke-width=".8"/>`;
+  });
+  s += chandelier() + garlands() + bouquet(-6, 730, false) + bouquet(406, 730, true);
+  $("#scene").innerHTML = s;
+}
+const LANTERN = `<line x1="15" y1="0" x2="15" y2="98" stroke="#c9a464" stroke-width="1"/>
+  <circle cx="15" cy="120" r="14" fill="#ffd98a" opacity=".35" style="filter:blur(5px)"/>
+  <path d="M10 98h10l4 6-3 4v20l4 6H5l4-6v-20l-3-4z" fill="rgba(217,180,111,.25)" stroke="#d9b46f" stroke-width="1"/>
+  <circle cx="15" cy="119" r="3.5" fill="#ffe7ad"/><path d="M12 134h6l-3 9z" fill="#d9b46f"/>`;
+document.querySelectorAll("[data-lantern]").forEach(el => el.innerHTML = LANTERN);
+
+function buildEnvelope() {
+  let s = `<rect width="300" height="400" fill="#f4ead9"/>`;
+  // navy corner panels with cusped edge + roses
+  const corner = (tx, ty, sx, sy) => {
+    let c = `<g transform="translate(${tx} ${ty}) scale(${sx} ${sy})"><path d="M0 0H92Q92 26 70 34Q58 40 56 56Q40 58 34 70Q26 92 0 92Z" fill="#1d2646"/>
+      <path d="M0 0H92Q92 26 70 34Q58 40 56 56Q40 58 34 70Q26 92 0 92" fill="none" stroke="#c9a464" stroke-width="1.2" transform="translate(4 4)"/>`;
+    for (let i = 0; i < 6; i++) c += leaf(8 + rnd() * 50, 8 + rnd() * 50, rnd() * 360, 14, "#8d9a7b");
+    for (let i = 0; i < 5; i++) { const [f, st] = pick(); c += rose((10 + rnd() * 46).toFixed(1), (10 + rnd() * 46).toFixed(1), 7 + rnd() * 7, f, st); }
+    return c + `</g>`;
+  };
+  s += corner(0, 0, 1, 1) + corner(300, 0, -1, 1) + corner(0, 400, 1, -1) + corner(300, 400, -1, -1);
+  s += `<rect x="8" y="8" width="284" height="384" fill="none" stroke="#c9a464" stroke-width="1"/>`;
+  s += `<path d="M0 400L150 230L300 400" fill="none" stroke="#e1d2b8" stroke-width="1.2"/>`;
+  $("#envBody").innerHTML = s;
+}
+
+/* ============ SCREENS ============ */
+EVENT.functions.forEach(f => {
+  const s = document.createElement("section");
+  s.className = "screen"; s.dataset.fn = f.id;
+  $("#fnAnchor").before(s);
+});
+const screens = [...document.querySelectorAll(".screen")];
+const LAST = screens.length - 1;
+const idx = id => screens.findIndex(s => s.id === id);
+let cur = 0;
+const state = { events: new Set(), decline: false, men: 1, women: 0, kids: 0, submitted: null };
+
+const mainFn = () => EVENT.functions.find(f => f.id === EVENT.mainEvent) || EVENT.functions[0];
+const coupleHTML = () => `${EVENT.groom[lang].toUpperCase()}<span class="amp">&amp;</span>${EVENT.bride[lang].toUpperCase()}`;
+function dateBlock(iso) {
+  const d = new Date(iso);
+  const month = d.toLocaleDateString("en-GB", { month: "long" });
+  const wd = lang === "ru" ? WEEKDAY_RU[d.getDay()] : d.toLocaleDateString("en-GB", { weekday: "long" });
+  return `<div class="dblock"><span class="side">${month.toUpperCase()}</span><span class="day"><small>${d.getFullYear()}</small><b>${d.getDate()}</b></span><span class="side">${wd.toUpperCase()}</span></div>`;
+}
+const fmtTime = iso => new Date(iso).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+
+function render() {
+  $("#langBtn").textContent = lang === "en" ? "Roman Urdu" : "English";
+  document.querySelectorAll("[data-t]").forEach(el => el.textContent = t(el.dataset.t));
+  document.querySelectorAll("[data-e]").forEach(el => el.textContent = EVENT[el.dataset.e][lang]);
+  document.querySelectorAll("[data-ph]").forEach(el => el.placeholder = t(el.dataset.ph));
+  document.querySelectorAll("[data-couple]").forEach(el => el.innerHTML = coupleHTML());
+  $("#seal").textContent = EVENT.groom.en[0] + EVENT.bride.en[0];
+
+  document.querySelectorAll("[data-fn]").forEach(sec => {
+    const f = EVENT.functions.find(x => x.id === sec.dataset.fn);
+    sec.innerHTML = `
+      <div class="couple">${coupleHTML()}</div>
+      <p class="title">${f[lang]}</p>
+      ${dateBlock(f.date)}
+      <p class="time">${fmtTime(f.date)}</p>
+      <p class="kicker" style="margin-top:12px">${t("venue")}</p>
+      <p class="line">${f.venue}</p>
+      <a class="map-btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(f.map)}">📍 ${t("directions").toUpperCase()}</a>`;
+  });
+
+  $("#picks").innerHTML = EVENT.functions.map(f =>
+    `<button class="choice ${state.events.has(f.id) ? "on" : ""}" data-pick="${f.id}"><span class="tick">✓</span>${f[lang].toUpperCase()}</button>`).join("");
+  $("#decline").classList.toggle("on", state.decline);
+  $("#counters").innerHTML = ["men", "women", "kids"].map(k => `
+    <div class="counter"><span class="lbl">${t(k).toUpperCase()}</span>
+      <div class="ctl"><button class="minus" data-dec="${k}">−</button><span class="n">${state[k]}</span><button data-inc="${k}">+</button></div></div>`).join("");
+  $("#total").textContent = `${t("total").toUpperCase()}: ${state.men + state.women + state.kids}`;
+
+  if (state.submitted) {
+    const r = state.submitted;
+    $("#thanksIco").textContent = r.decline ? "🤲" : "🤍";
+    $("#thanksText").textContent = t(r.decline ? "thanksNo" : "thanksYes");
+    $("#saveNote").textContent = t(state.saveStatus || "thanksSub");
+    const tf = $("#tellFamily");
+    tf.style.display = EVENT.wa ? "" : "none";
+    tf.textContent = t(state.saveStatus === "thanksSub" ? "tellFamily" : "tellMain");
+    tf.href = `https://wa.me/${EVENT.wa}?text=` + encodeURIComponent(familyMessage(r));
+  }
+  const msg = `${EVENT.groom[lang]} & ${EVENT.bride[lang]} — ${t("wedding")}\n${location.href.split("?")[0]}`;
+  $("#shareBtn").href = "https://wa.me/?text=" + encodeURIComponent(msg);
+  $("#dots").innerHTML = screens.map((_, i) => `<i class="${i === cur ? "on" : ""}"></i>`).join("");
+  $("#nextLbl").textContent = (cur === idx("rsvp2") ? t("send") : t("next")).toUpperCase();
+  if ($("#host").classList.contains("show")) drawHost();
+}
+
+/* ============ NAVIGATION ============ */
+function go(i) {
+  cur = Math.max(0, Math.min(LAST, i));
+  screens.forEach((s, k) => s.classList.toggle("active", k === cur));
+  $("#back").classList.toggle("hidden", cur === 0 || cur === LAST);
+  $("#nav").classList.toggle("hide", cur === LAST);
+  $("#err1").textContent = "";
+  setScene();
+  render();
+}
+function sceneFor(i) {
+  const s = screens[i];
+  if (i === 0) return "hero";
+  if (s.dataset.fn) return "fn";
+  if (s.id === "countdown") return "countdown";
+  if (s.id === "rsvp1" || s.id === "rsvp2") return "rsvp";
+  if (s.id === "thanks") return "thanks";
+  return "families";
+}
+function setScene() {
+  const key = sceneFor(cur);
+  const vid = document.querySelector(`#media video.layer[data-scene="${key}"]`);
+  const useVid = !!(vid && vid.dataset.ready);
+  document.querySelectorAll("#media img.layer").forEach(img => img.classList.toggle("on", img.dataset.scene === key && !useVid));
+  document.querySelectorAll("#media video.layer").forEach(v => {
+    const on = v === vid && useVid;
+    v.classList.toggle("on", on);
+    if (on) { v.play().catch(() => {}); } else if (!v.paused) { v.pause(); }
+  });
+}
+function shake(el) { el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake"); }
+function next() {
+  if (cur === idx("rsvp1")) {
+    if (!$("#name").value.trim()) { $("#err1").textContent = t("errName"); shake($("#name")); $("#name").focus(); return; }
+    if (!state.events.size && !state.decline) { $("#err1").textContent = t("errPick"); shake($("#picks")); return; }
+    if (state.decline) { submit(); return go(LAST); }
+  }
+  if (cur === idx("rsvp2")) { submit(); return go(LAST); }
+  go(cur + 1);
+}
+
+/* ============ STORAGE (demo: abhi isi phone par save hota hai) ============ */
+const KEY = "shaadi-rsvps";
+function load() { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } }
+function save(a) { try { localStorage.setItem(KEY, JSON.stringify(a)); } catch {} }
+const fnName = id => EVENT.functions.find(f => f.id === id)?.[lang] || id;
+function familyMessage(r) {
+  const n = r.men + r.women + r.kids;
+  return lang === "ru"
+    ? `Assalam o Alaikum! 💌
+*${r.name}* ka jawab:
+` + (r.decline ? "❌ Nahi aa sakenge" :
+      `✅ Aa rahe hain: ${r.events.map(fnName).join(", ")}
+👥 Kul ${n} log (Mard ${r.men}, Khawateen ${r.women}, Bachay ${r.kids})`)
+    : `Assalam o Alaikum! 💌
+Reply from *${r.name}*:
+` + (r.decline ? "❌ Can't make it" :
+      `✅ Coming to: ${r.events.map(fnName).join(", ")}
+👥 Total ${n} (Men ${r.men}, Women ${r.women}, Children ${r.kids})`);
+}
+async function submit() {
+  const d = state.decline;
+  const r = { name: $("#name").value.trim().slice(0, 60), events: d ? [] : [...state.events], decline: d,
+              men: d ? 0 : state.men, women: d ? 0 : state.women, kids: d ? 0 : state.kids, at: Date.now() };
+  state.submitted = r;
+  const all = load(); all.push(r); save(all);
+  if (window.dawatDB && EVENT.id) {
+    state.saveStatus = "sending"; render();
+    try { await dawatDB.addRsvp({ event_id: EVENT.id, name: r.name, events: r.events, decline: r.decline, men: r.men, women: r.women, kids: r.kids }); state.saveStatus = "thanksSub"; }
+    catch { state.saveStatus = "saveFail"; }
+  } else {
+    state.saveStatus = EVENT.wa ? "waOnly" : "thanksSub";
+  }
+  render();
+}
+
+/* ============ HOST DASHBOARD ============ */
+const hostKey = new URLSearchParams(location.search).get("host");
+let hostRows = [], hostState = "hostLoading", hostTimer = null;
+async function refreshHost() {
+  if (window.dawatDB && EVENT.id && hostKey) {
+    try {
+      hostRows = (await dawatDB.getRsvps(EVENT.id, hostKey)).map(r => ({ ...r, at: Date.parse(r.created_at) }));
+      hostState = "hostLive";
+    } catch { hostState = "hostFail"; }
+  } else { hostRows = load(); hostState = "hostLocal"; }
+  drawHost();
+}
+function openHostView() {
+  $("#envWrap").classList.add("gone"); $("#host").classList.add("show");
+  drawHost(); refreshHost();
+  clearInterval(hostTimer); hostTimer = setInterval(refreshHost, 20000);
+}
+function drawHost() {
+  const all = hostRows, lines = [];
+  $("#hostStatus").textContent = t(hostState);
+  $("#stats").innerHTML = EVENT.functions.map(f => {
+    const g = all.filter(r => !r.decline && r.events.includes(f.id));
+    const m = g.reduce((a, r) => a + r.men, 0), w = g.reduce((a, r) => a + r.women, 0), k = g.reduce((a, r) => a + r.kids, 0);
+    lines.push(`${f[lang]}: ${m + w + k} (${t("men")} ${m}, ${t("women")} ${w}, ${t("kids")} ${k})`);
+    return `<div class="stat"><div><div class="fn">${f[lang].toUpperCase()}</div><div class="brk">${t("men")} ${m} · ${t("women")} ${w} · ${t("kids")} ${k}</div></div><div class="num">${m + w + k}</div></div>`;
+  }).join("") + `<div class="stat"><div class="fn">${t("notComing").toUpperCase()}</div><div class="num" style="font-size:28px">${all.filter(r => r.decline).length}</div></div>`;
+  $("#caterer").href = "https://wa.me/?text=" + encodeURIComponent(`${EVENT.groom[lang]} & ${EVENT.bride[lang]}\n${lines.join("\n")}`);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  $("#guestList").innerHTML = all.length ? all.slice().reverse().map(r => `<div class="guest"><span>${esc(r.name)}</span><small>${
+    r.decline ? t("notComing") : r.events.map(id => EVENT.functions.find(f => f.id === id)?.[lang]).join(", ") + " · " + (r.men + r.women + r.kids)}</small></div>`).join("")
+    : `<p class="empty">${t("noReplies")}</p>`;
+}
+
+/* ============ EVENTS ============ */
+function openEnvelope() {
+  const w = $("#envWrap"); if (w.classList.contains("open")) return;
+  w.classList.add("open"); setTimeout(() => w.classList.add("gone"), 1700);
+  playVisible();   // lifafa kholna = user ka tap, is par video hamesha chal jati hai
+}
+$("#env").onclick = openEnvelope;
+$("#seal").onclick = openEnvelope;
+$("#langBtn").onclick = () => { lang = lang === "en" ? "ru" : "en"; render(); };
+$("#next").onclick = next;
+$("#back").onclick = () => go(cur - 1);
+$("#picks").onclick = e => {
+  const b = e.target.closest("[data-pick]"); if (!b) return;
+  const id = b.dataset.pick; state.events.has(id) ? state.events.delete(id) : state.events.add(id);
+  state.decline = false; $("#err1").textContent = ""; render();
+};
+$("#decline").onclick = () => { state.decline = !state.decline; if (state.decline) state.events.clear(); $("#err1").textContent = ""; render(); };
+$("#counters").onclick = e => {
+  const inc = e.target.dataset.inc, dec = e.target.dataset.dec;
+  if (inc) state[inc] = Math.min(30, state[inc] + 1);
+  if (dec) state[dec] = Math.max(0, state[dec] - 1);
+  render();
+};
+$("#name").addEventListener("keydown", e => { if (e.key === "Enter") { e.target.blur(); next(); } });
+$("#refreshHost").onclick = refreshHost;
+
+let sx = null;
+$("#phone").addEventListener("touchstart", e => sx = e.touches[0].clientX, { passive: true });
+$("#phone").addEventListener("touchend", e => {
+  if (sx === null || cur >= idx("rsvp1") || !$("#envWrap").classList.contains("gone")) return;
+  const dx = e.changedTouches[0].clientX - sx; sx = null;
+  if (Math.abs(dx) > 60) go(dx < 0 ? cur + 1 : cur - 1);
+});
+
+function tick() {
+  const d = Math.max(0, new Date(mainFn().date) - Date.now()) / 1000;
+  $("#cD").textContent = Math.floor(d / 86400);
+  $("#cH").textContent = Math.floor(d % 86400 / 3600);
+  $("#cM").textContent = Math.floor(d % 3600 / 60);
+  $("#cS").textContent = Math.floor(d % 60);
+}
+
+buildScene();
+buildEnvelope();
+/* phone wapas khulne par video dobara chalao */
+function playVisible() {
+  document.querySelectorAll("#media video").forEach(v => {
+    if (!v.classList.contains("layer") || v.classList.contains("on")) v.play().catch(() => {});
+  });
+}
+document.addEventListener("visibilitychange", () => { if (!document.hidden) playVisible(); });
+(function loadTemplate() {
+  const tp = TEMPLATES[EVENT.template] || TEMPLATES.mughal, ph = $("#phone");
+  ph.style.setProperty("--box-top", tp.box[0]); ph.style.setProperty("--box-bottom", tp.box[1]);
+  if (tp.scenes) {   // scene wala template: har screen ki alag tasveer
+    const keys = Object.keys(tp.scenes);
+    let loaded = 0;
+    keys.forEach(k => {
+      const sc = typeof tp.scenes[k] === "string" ? { img: tp.scenes[k] } : tp.scenes[k];
+      const img = new Image(); img.className = "layer"; img.dataset.scene = k; img.alt = "";
+      img.onload = () => { if (++loaded === 1) { ph.classList.add("has-media"); ph.classList.toggle("light-text", tp.ink === "light"); ph.classList.toggle("no-glow", tp.glow === false); } setScene(); };
+      img.src = sc.img;
+      $("#media").append(img);
+      if (sc.video) {   // chalti hui video: tayyar hote hi tasveer ki jagah le leti hai
+        const v = document.createElement("video");
+        Object.assign(v, { muted: true, loop: true, playsInline: true, preload: "auto" });
+        v.setAttribute("muted", ""); v.setAttribute("playsinline", "");
+        v.className = "layer"; v.dataset.scene = k; v.poster = sc.img;
+        v.addEventListener("canplaythrough", () => { v.dataset.ready = "1"; setScene(); }, { once: true });
+        v.src = sc.video;
+        $("#media").append(v);
+      }
+    });
+    return;
+  }
+  const tryAt = i => {
+    if (i >= tp.media.length) return; // koi file nahi mili: code wala scene hi rahega
+    const src = tp.media[i], isVid = /\.mp4$|\.webm$/.test(src);
+    const el = document.createElement(isVid ? "video" : "img");
+    if (isVid) { Object.assign(el, { muted: true, loop: true, autoplay: true, playsInline: true }); el.setAttribute("muted", ""); el.setAttribute("playsinline", ""); el.poster = tp.media.find(m => /\.jpg$/.test(m)) || ""; }
+    el.addEventListener(isVid ? "loadeddata" : "load", () => {
+      $("#media").replaceChildren(el); ph.classList.add("has-media");
+      if (isVid) { el.play().catch(() => {}); el.addEventListener("canplay", () => el.play().catch(() => {}), { once: true }); }
+      ph.classList.toggle("light-text", tp.ink === "light");
+      ph.classList.toggle("no-glow", tp.glow === false);
+    }, { once: true });
+    el.addEventListener("error", () => tryAt(i + 1), { once: true });
+    el.src = src;
+  };
+  tryAt(0);
+})();
+setInterval(tick, 1000); tick();
+if (hostKey !== null) openHostView();
+go(0);
+</script>
+</body>
+</html>
